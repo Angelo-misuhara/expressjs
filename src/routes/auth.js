@@ -37,21 +37,13 @@ const passport = require('passport')
   
 // });
 
-
+//login using passport
+// the passport.authenticate('local') is a under the hood logic
+//local is a name of js file
 router.post('/login', passport.authenticate('local'), (req,res) => {
   console.log('logged in')
-  res.send(201)
+  res.sendStatus(201)
 })
-
-
-
-
-
-
-
-
-
-
 
 
 

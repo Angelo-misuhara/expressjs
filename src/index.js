@@ -20,6 +20,11 @@ const PORT = 3001;
 //importing passport
 const passport = require('passport')
 
+//importing connect-mongo
+//this import will be a session folder to the mongodb
+const mongoStore = require('connect-mongo')
+
+
 
 //middleware- function involve in the middle of two main functionality
 //require for postman to be enabled to send post
@@ -33,13 +38,25 @@ app.use(session(
  {
  secret: 'asduhagsdgbfgsiogfbsygbfdhfbvlsdbfb',
  resave: false,
- saveUninitialized:false
+  saveUninitialized: false,
+  //adding a key to store session to mongo
+  store: mongoStore.create({
+   //connecting the session to mongo
+   //putting
+   mongoUrl:'mongodb://127.0.0.1:27017/expressMongoose',
+  }),
  }
 ))
 //using the cookie parser
 app.use(cookieParser())
 app.use((req, res, next) => {
  console.log(req.method)
+ //next is important to next to the next function or callback
+ next()
+})
+//logging only memory store
+app.use((req, res, next) => {
+  console.log('this is the memory store')
  //next is important to next to the next function or callback
  next()
 })
@@ -50,20 +67,9 @@ app.use(passport.initialize())
 //giving a session to passport  js
 app.use(passport.session())
 
-app.use("/api/user",authUser)
-app.use((req, res, next) => {
- if (req.session.user) {
-  next();
- } else {
-  console.log(req.session.user)
-  res.status(401).send('unothorized')
- }
-})
-
-
-
 //setting a middle ware  for routes(groceriesRoutes)
 //the api is a prefix route
+app.use("/api/user",authUser)
 app.use("/api/groceries", groceriesRoutes)
 app.use("/api/market", mrktroutes)
 //listening to the port that is created

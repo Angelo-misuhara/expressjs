@@ -4,31 +4,35 @@ const { Router } = require('express')
 //call the instance of router
 const router = Router()
 
-// router.use((req, res, next) => {
-//  if (req.session.user) {
-//   next();
-//  } else {
-//   console.log(req.session.user)
-//   res.status(401).send('unothorized')
-//  }
-// })
+//adding a auth in the groceries route
+router.use((req, res, next) => {
+  console.log('req,inside the groceries router')
+  console.log(req.user)
+  //checking if the req.user has a laman
+  if (req.user) {
+    next();
+  } else {
+    console.log(req.user)
+    res.status(401).send('unothorized')
+  }
+})
 
 
 const groceerylist = [{
-  itemId:'1',
+  itemId: '1',
   item: 'milk',
   quantity: 2,
- },
- {
-    itemId:'2',
+},
+{
+  itemId: '2',
   item: 'gonut',
   quantity: 1,
-  },
- {
-      itemId:'3',
+},
+{
+  itemId: '3',
   item: 'champorado',
   quantity: 3,
- }]
+}]
 
 router.get('/get', (request, response) => {
   response.cookie('visited', true, {
@@ -36,7 +40,7 @@ router.get('/get', (request, response) => {
   })
   //status of req
   //send(json what every format you want)
- response.status(201).send(groceerylist);
+  response.status(201).send(groceerylist);
 })
 
 //route parameter
