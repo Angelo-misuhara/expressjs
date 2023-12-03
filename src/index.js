@@ -1,6 +1,7 @@
 //importing the database
 require('./database/database.js')
-require('./strat/local.js')
+require('./strat/discord')
+// require('./strat/local.js')
 //importing the express app
 const express = require('express')
 //importing the cookie-parser

@@ -62,7 +62,7 @@ router.post('/register', async (req, res) => {
   const {  email } = req.body
   //finding the user post if it is already exist
   //finding by username and email(storing it in userDB)
-  const userDB = await user.findOne({ $or: [{ email }] })
+  const userDB = await user.findOne({ $or: { email } })
   // checking it  if it is truthy( if it has duplicates)
   if (userDB) {
     //sending a 401 and a message
@@ -78,5 +78,22 @@ router.post('/register', async (req, res) => {
     res.status(201).send('successfully created!')
   }
 })
+
+
+router.get('/discord', passport.authenticate('discord'), (req, res) => {
+  console.log('auth discord')
+  res.send(200)
+})
+
+router.get('/discord/redirect', passport.authenticate('discord'), (req, res) => {
+  console.log('auth discord')
+  res.send(200)
+})
+
+
+
+
+
+
 
 module.exports =router
