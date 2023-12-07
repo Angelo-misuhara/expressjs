@@ -41,42 +41,51 @@ passport.deserializeUser(async(id, done) => {
 
 //this is for trategy in discord login
 passport.use(
- //defining the needs
- //parameter
- new Strategy(
-  {
-   clientID: '1180865760189493358',
-   clientSecret: 'LOLv-UVf8N2tcjjgfImVfh9AKhUbUFpx',
-   callbackURL: 'http://localhost:3001/api/user/discord/redirect',
-   scope: ['identify'],
-  },
-  //verify function
-  //in this function
-  //create a user
-  //found user
-  async (accessToken, refreshToken, profile, done) => {
-   try {
-    console.log(accessToken, accessToken)
-   console.log(profile)
+  //defining the needs
+  //parameter
+  new Strategy(
+    {
+      clientID: '1180865760189493358',
+      clientSecret: 'LOLv-UVf8N2tcjjgfImVfh9AKhUbUFpx',
+      callbackURL: 'http://localhost:3001/api/user/discord/redirect',
+      scope: ['identify'],
+    },
+    //verify function
+    //in this function
+    //create a user
+    //found user
+    async (accessToken, refreshToken, profile, done) => {
+      try {for (let i = 0; i < 5; i++) {
+  console.log('Hello world!');
+}
+for (let i = 0; i < 5; i++) {
+  console.log('Hello world!');
+}
+for (let i = 0; i < 5; i++) {
+  console.log('Hello world!');
+}
 
-   //finding the same id in mongoDB
-   const dcUser = await discordUser.findOne({ disordID: profile.id, });
-   
-    if (dcUser) {
-     console.log('found user!')
-    console.log(dcUser)
-    return done(null,dcUser)
-    } else {
-     //creating a new user in db
-    const newUser = await discordUser.create({
-     disordID: profile.id,
-    });
-      console.log('created a new user')
-    return done(null,newUser)
-   }
-   } catch (error) {
-     return done(error,null)
-   }
+        console.log(accessToken, accessToken)
+        console.log(profile)
 
-  })
+        //finding the same id in mongoDB
+        const dcUser = await discordUser.findOne({ disordID: profile.id, });
+
+        if (dcUser) {
+          console.log('found user!')
+          console.log(dcUser)
+          return done(null, dcUser)
+        } else {
+          //creating a new user in db
+          const newUser = await discordUser.create({
+            disordID: profile.id,
+          });
+          console.log('created a new user')
+          return done(null, newUser)
+        }
+      } catch (error) {
+        return done(error, null)
+      }
+
+    })
 )
